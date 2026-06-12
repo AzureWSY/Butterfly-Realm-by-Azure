@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 465fe3d8a6de393408a4d4dbb5ae90f4, type: 3}
+  m_Name: Vision Expansion SO
+  m_EditorClassIdentifier: 
+  effectName: VisionExpansion
+  isOneTimeUse: 1
+  canRecover: 0
+  recoverTime: 3
+  expandedSize: 11
+  duration: 1e+9

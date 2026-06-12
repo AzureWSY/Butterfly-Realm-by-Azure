@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1024590323262717160
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 10
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BlueVineTrapGlow
+  m_Shader: {fileID: -6465566751694194690, guid: dc024c09960efcb4fabe76b557dec954, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GlowMask:
+        m_Texture: {fileID: 2800000, guid: 78e8ca8188e74904eba6d9a7fc4befff, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 42b35488a4167e046a68263aaa2f072d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskMap_butterfly:
+        m_Texture: {fileID: 2800000, guid: f264b7fcce818f348a794154b8f7a277, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _CurrentGlowIntensityMultiplier: 3
+    - _DamageGlitchMultiplier: 1
+    - _DissolveAmount: 0.5
+    - _EnableExternalAlpha: 0
+    - _GlowIntensity: 1.1
+    - _GlowIntensity1: 2
+    - _GlowIntensity2: 2
+    - _GlowPower: 5
+    - _LaserLength: 0
+    - _MatchTolerance: 0.2
+    - _MatchTolerance1: 0.468
+    - _MatchTolerance2: 0.586
+    - _MatchTolerance3: 0.02
+    - _MatchTolerance_1: 0
+    - _MatchTolerence: 0.335
+    - _NoiseScale: 50
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Value: 0.7
+    - _WindIntensity: 2
+    - _WindSpeed: 3
+    - _ZWrite: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DamageColor: {r: 2.996078, g: 0.2891168, b: 0, a: 0}
+    - _EmissionColor: {r: 0.0245098, g: 0.02647059, b: 0.05196078, a: 0}
+    - _GlowColor: {r: 0.066343725, g: 0, b: 1.319508, a: 1}
+    - _GlowColor1: {r: 0.029443286, g: 0.035596777, b: 0.115592204, a: 0}
+    - _GlowColor2: {r: 3.294118, g: 5.521569, b: 6.337255, a: 0}
+    - _GlowColor3: {r: 0, g: 0, b: 0, a: 0}
+    - _GlowColor_1: {r: 0.48280174, g: 0.5214259, b: 1.0235397, a: 1}
+    - _Glowcolor1: {r: 0.0166627, g: 0.02781292, b: 0.25232142, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TargetColor: {r: 1, g: 0, b: 0, a: 0}
+    - _TargetColor1: {r: 0.09803922, g: 0.105882354, b: 0.20784314, a: 1}
+    - _TargetColor2: {r: 0.4117647, g: 0.6901961, b: 0.7921569, a: 0}
+    - _TargetColor3: {r: 1, g: 0, b: 0, a: 0}
+    - _TargetColorNew: {r: 0.09803922, g: 0.105882354, b: 0.20784314, a: 1}
+    - _Target_Color_1: {r: 0.09803922, g: 0.105882354, b: 0.20784314, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
