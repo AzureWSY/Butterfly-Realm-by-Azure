@@ -98980,7 +98980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49295777b3d53ba48a2f25d302ce54f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: {fileID: 0}
+  playerHealth: {fileID: 627441099}
   transitionSpeed: 5
   flashSpeed: 4
 --- !u!1001 &580876810
