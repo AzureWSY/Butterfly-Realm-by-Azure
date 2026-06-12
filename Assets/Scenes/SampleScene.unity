@@ -668,7 +668,7 @@ PrefabInstance:
     - target: {fileID: 8429018254792558733, guid: 18cda775051763b4c9f794f6e6a8f20a, type: 3}
       propertyPath: OnPlayerHitLaser.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 627441090}
+      objectReference: {fileID: 0}
     - target: {fileID: 8429018254792558733, guid: 18cda775051763b4c9f794f6e6a8f20a, type: 3}
       propertyPath: OnPlayerHitLaser.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: InstantKill
@@ -3189,11 +3189,11 @@ PrefabInstance:
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnDialogueStarted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 627441085}
+      objectReference: {fileID: 0}
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnDialogueFinished.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 627441085}
+      objectReference: {fileID: 0}
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnDialogueStarted.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetMovementPermission
@@ -3205,11 +3205,11 @@ PrefabInstance:
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnFirstDialogueFinished.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 627441091}
+      objectReference: {fileID: 0}
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnFirstDialogueFinished.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 627441096}
+      objectReference: {fileID: 0}
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnFirstDialogueFinished.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: AddButterflyEnergy
@@ -96718,7 +96718,7 @@ PrefabInstance:
     - target: {fileID: 8429018254792558733, guid: 18cda775051763b4c9f794f6e6a8f20a, type: 3}
       propertyPath: OnPlayerHitLaser.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 627441090}
+      objectReference: {fileID: 0}
     - target: {fileID: 8429018254792558733, guid: 18cda775051763b4c9f794f6e6a8f20a, type: 3}
       propertyPath: OnPlayerHitLaser.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: InstantKill
@@ -97966,11 +97966,11 @@ PrefabInstance:
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnDialogueStarted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 627441085}
+      objectReference: {fileID: 0}
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnDialogueFinished.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 627441085}
+      objectReference: {fileID: 0}
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnDialogueStarted.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetMovementPermission
@@ -97982,7 +97982,7 @@ PrefabInstance:
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnFirstDialogueFinished.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 627441091}
+      objectReference: {fileID: 0}
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnFirstDialogueFinished.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: AddButterflyEnergy
@@ -98980,7 +98980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49295777b3d53ba48a2f25d302ce54f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: {fileID: 627441090}
+  playerHealth: {fileID: 0}
   transitionSpeed: 5
   flashSpeed: 4
 --- !u!1001 &580876810
@@ -99693,16 +99693,16 @@ GameObject:
   m_Component:
   - component: {fileID: 627441083}
   - component: {fileID: 627441084}
-  - component: {fileID: 627441085}
   - component: {fileID: 627441087}
-  - component: {fileID: 627441090}
-  - component: {fileID: 627441091}
   - component: {fileID: 627441093}
   - component: {fileID: 627441094}
-  - component: {fileID: 627441095}
-  - component: {fileID: 627441096}
   - component: {fileID: 627441097}
   - component: {fileID: 627441098}
+  - component: {fileID: 627441102}
+  - component: {fileID: 627441101}
+  - component: {fileID: 627441100}
+  - component: {fileID: 627441099}
+  - component: {fileID: 627441103}
   m_Layer: 3
   m_Name: playermonkey_0
   m_TagString: Player
@@ -99756,42 +99756,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &627441085
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 627441079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b249bc63233a2bc44965bbe6271866e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 6.5
-  jumpforce: 10
-  maxfallspeed: 13
-  rayLength: 0.15
-  movementLocks: 0
-  groundLayer:
-    m_Bits: 64
-  rb: {fileID: 0}
-  horizoninput: 0
-  boxColl: {fileID: 0}
-  isGrounded: 0
-  fallMultiplier: 3.5
-  lowJumpMultiplier: 2
-  defaultGravity: 1
-  isWallAhead: 0
-  wallRayLength: 0.15
-  jumpBufferTime: 0.15
-  jumpBufferCounter: 0
-  coyoteTime: 0.15
-  coyoteTimeCounter: 0
-  isBeingThrown: 0
-  canSuperJump: 0
-  isSuperJumping: 0
-  SuperJumpScale: 22
 --- !u!61 &627441087
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -99838,43 +99802,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.6445484, y: 1.253323}
   m_EdgeRadius: 0.05
---- !u!114 &627441090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 627441079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28ab9a8742e934940b04498a1ccad070, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statsAsset: {fileID: 11400000, guid: debc091851a149d4ca4af0657c53e627, type: 2}
-  _currentHealth: 0
-  playerStats: {fileID: 11400000, guid: 030a76103141cc540bfd6dd43f13b8b0, type: 2}
-  invincibilityTimer: 0
-  absoluteSafeTime: 0
-  glowController: {fileID: 0}
---- !u!114 &627441091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 627441079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73d2a848474e51044b0653ca5236c72b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentEnergy: 0
-  maxEnergy: 100
-  OnEnergyChanged:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 1232405424}, m_TargetAssemblyTypeName: DynamicUIManager, Assembly-CSharp, m_MethodName: OnEnergyChanged, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
 --- !u!114 &627441093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99923,61 +99850,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.046860695, y: 0.1150959}
   m_Radius: 0.12620781
---- !u!114 &627441095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 627441079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1d10313b6228de488e03637abfbd4db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthSystem: {fileID: 0}
---- !u!114 &627441096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 627441079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05af00f867703584f8a042e8e5c09e75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 0}
-  glowMaterial: {fileID: 0}
-  environmentLight: {fileID: 1281206684}
-  selfLight: {fileID: 1882432600}
-  baseLightIntensity: 0
-  butterflyShaderIntensity: 0.4
-  butterflyEnvLight: 0.8
-  butterflySelfLight: 0.5
-  butterflyFadeSpeed: 0.8
-  isButterflyLightOn: 0
-  multiplierParam: _CurrentGlowIntensityMultiplier
-  burstShaderIntensity: 1.2
-  burstEnvLight: 1.8
-  burstSelfLight: 0.6
-  fadeInDuration: 2
-  stayDuration: 4
-  fadeOutDuration: 6
-  isBursting: 0
-  glitchMultiplierParam: _DamageGlitchMultiplier
-  damageFlashDuration: 1
-  damageEnvLight: 2.5
-  damageSelfLight: 1.2
-  batteryDrainPerSecond: 2
-  currentBattery: 100
-  multiplierID: 0
-  glitchMultiplierID: 0
-  currentBaseEnvLight: 0
-  currentDamageEnvLight: 0
-  currentBaseSelfLight: 0
-  currentDamageSelfLight: 0
 --- !u!114 &627441097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100007,6 +99879,123 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   auraHoldPoint: {fileID: 1893378667}
+--- !u!114 &627441099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627441079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c13cd3f5bc20f0409a7b3d64297b1dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statsAsset: {fileID: 11400000, guid: debc091851a149d4ca4af0657c53e627, type: 2}
+  playerStats: {fileID: 11400000, guid: 030a76103141cc540bfd6dd43f13b8b0, type: 2}
+--- !u!114 &627441100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627441079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41eeab3bfd0c8da458ad641e59018a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  environmentLight: {fileID: 1281206684}
+  selfLight: {fileID: 1882432600}
+  baseLightIntensity: 0
+  butterflyShaderIntensity: 0.4
+  butterflyEnvLight: 0.8
+  butterflySelfLight: 0.5
+  butterflyFadeSpeed: 0.8
+  multiplierParam: _CurrentGlowIntensityMultiplier
+  burstShaderIntensity: 1.2
+  burstEnvLight: 1.8
+  burstSelfLight: 0.6
+  fadeInDuration: 2
+  stayDuration: 4
+  fadeOutDuration: 6
+  glitchMultiplierParam: _DamageGlitchMultiplier
+  damageFlashDuration: 1
+  damageEnvLight: 2.5
+  damageSelfLight: 1.2
+  batteryDrainPerSecond: 2
+  currentBattery: 100
+--- !u!114 &627441101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627441079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01f1af6c7eb4778458346c9ead8cb640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentEnergy: 0
+  maxEnergy: 100
+  OnEnergyChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1232405424}
+        m_TargetAssemblyTypeName: DynamicUIManager, Assembly-CSharp
+        m_MethodName: OnEnergyChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &627441102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627441079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8930e97bdb322ba42b0370b481f82941, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 7
+  jumpforce: 10
+  maxfallspeed: 13
+  rayLength: 0.15
+  movementLocks: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  isGrounded: 0
+  fallMultiplier: 3.5
+  lowJumpMultiplier: 2
+  wallRayLength: 0.15
+  jumpBufferTime: 0.2
+  coyoteTime: 0.15
+  isBeingThrown: 0
+  canSuperJump: 0
+  isSuperJumping: 0
+  SuperJumpScale: 22
+--- !u!114 &627441103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627441079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cfc780b65e9da64c84927e4e9551848, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &628754788
 GameObject:
   m_ObjectHideFlags: 0
@@ -100850,7 +100839,7 @@ PrefabInstance:
     - target: {fileID: 8429018254792558733, guid: 18cda775051763b4c9f794f6e6a8f20a, type: 3}
       propertyPath: OnPlayerHitLaser.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 627441090}
+      objectReference: {fileID: 0}
     - target: {fileID: 8429018254792558733, guid: 18cda775051763b4c9f794f6e6a8f20a, type: 3}
       propertyPath: OnPlayerHitLaser.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: InstantKill
@@ -102824,7 +102813,7 @@ PrefabInstance:
     - target: {fileID: 8429018254792558733, guid: 18cda775051763b4c9f794f6e6a8f20a, type: 3}
       propertyPath: OnPlayerHitLaser.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 627441090}
+      objectReference: {fileID: 0}
     - target: {fileID: 8429018254792558733, guid: 18cda775051763b4c9f794f6e6a8f20a, type: 3}
       propertyPath: OnPlayerHitLaser.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: InstantKill
@@ -123142,7 +123131,7 @@ GameObject:
   - component: {fileID: 1305921688}
   - component: {fileID: 1305921692}
   - component: {fileID: 1305921691}
-  - component: {fileID: 1305921690}
+  - component: {fileID: 1305921693}
   m_Layer: 3
   m_Name: Visual
   m_TagString: Untagged
@@ -123165,21 +123154,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 627441083}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1305921690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1305921687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2a87a8898eb4554d8aeef2f9f361e15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  parentRb: {fileID: 0}
-  parentCtrl: {fileID: 0}
 --- !u!95 &1305921691
 Animator:
   serializedVersion: 7
@@ -123257,6 +123231,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1305921693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305921687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99e762a48679a4d47adaacf8513f44c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1306160351
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -126516,7 +126502,7 @@ PrefabInstance:
     - target: {fileID: 8429018254792558733, guid: 18cda775051763b4c9f794f6e6a8f20a, type: 3}
       propertyPath: OnPlayerHitLaser.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 627441090}
+      objectReference: {fileID: 0}
     - target: {fileID: 8429018254792558733, guid: 18cda775051763b4c9f794f6e6a8f20a, type: 3}
       propertyPath: OnPlayerHitLaser.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: InstantKill
@@ -128455,11 +128441,11 @@ PrefabInstance:
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnDialogueStarted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 627441085}
+      objectReference: {fileID: 0}
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnDialogueFinished.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 627441085}
+      objectReference: {fileID: 0}
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnDialogueStarted.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetMovementPermission
@@ -128471,7 +128457,7 @@ PrefabInstance:
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnFirstDialogueFinished.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 627441091}
+      objectReference: {fileID: 0}
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnFirstDialogueFinished.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: AddButterflyEnergy
@@ -130096,7 +130082,7 @@ PrefabInstance:
     - target: {fileID: 8429018254792558733, guid: 18cda775051763b4c9f794f6e6a8f20a, type: 3}
       propertyPath: OnPlayerHitLaser.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 627441090}
+      objectReference: {fileID: 0}
     - target: {fileID: 8429018254792558733, guid: 18cda775051763b4c9f794f6e6a8f20a, type: 3}
       propertyPath: OnPlayerHitLaser.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: InstantKill
@@ -130619,11 +130605,11 @@ PrefabInstance:
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnDialogueStarted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 627441085}
+      objectReference: {fileID: 0}
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnDialogueFinished.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 627441085}
+      objectReference: {fileID: 0}
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnDialogueStarted.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetMovementPermission
@@ -130635,11 +130621,11 @@ PrefabInstance:
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnFirstDialogueFinished.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 627441091}
+      objectReference: {fileID: 0}
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnFirstDialogueFinished.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 627441096}
+      objectReference: {fileID: 0}
     - target: {fileID: 7445963329569206127, guid: ed299ca8b4759fd4f873cf15eeaa880b, type: 3}
       propertyPath: OnFirstDialogueFinished.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: AddButterflyEnergy
@@ -131239,7 +131225,7 @@ PrefabInstance:
     - target: {fileID: 8429018254792558733, guid: 18cda775051763b4c9f794f6e6a8f20a, type: 3}
       propertyPath: OnPlayerHitLaser.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 627441090}
+      objectReference: {fileID: 0}
     - target: {fileID: 8429018254792558733, guid: 18cda775051763b4c9f794f6e6a8f20a, type: 3}
       propertyPath: OnPlayerHitLaser.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: InstantKill
@@ -132689,7 +132675,7 @@ PrefabInstance:
     - target: {fileID: 8429018254792558733, guid: 18cda775051763b4c9f794f6e6a8f20a, type: 3}
       propertyPath: OnPlayerHitLaser.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 627441090}
+      objectReference: {fileID: 0}
     - target: {fileID: 8429018254792558733, guid: 18cda775051763b4c9f794f6e6a8f20a, type: 3}
       propertyPath: OnPlayerHitLaser.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: InstantKill
@@ -135384,7 +135370,7 @@ PrefabInstance:
     - target: {fileID: 3513058922127417521, guid: 1767ffc4e65f54f499a7c0f09b9b453d, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 627441085}
+      objectReference: {fileID: 0}
     - target: {fileID: 3513058922127417521, guid: 1767ffc4e65f54f499a7c0f09b9b453d, type: 3}
       propertyPath: globalVolume
       value: 
@@ -135465,11 +135451,11 @@ PrefabInstance:
     - target: {fileID: 3395381387489960543, guid: 140cf5bc28a13054a8fe57dde47cc9ba, type: 3}
       propertyPath: playerHealth
       value: 
-      objectReference: {fileID: 627441090}
+      objectReference: {fileID: 0}
     - target: {fileID: 3395381387489960543, guid: 140cf5bc28a13054a8fe57dde47cc9ba, type: 3}
       propertyPath: playercontrol
       value: 
-      objectReference: {fileID: 627441085}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -135656,13 +135642,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7981589005821422847, guid: 9556e24e55c65304fadfa0ab6f73b5dc, type: 3}
+      propertyPath: Energy
+      value: 
+      objectReference: {fileID: 627441101}
+    - target: {fileID: 7981589005821422847, guid: 9556e24e55c65304fadfa0ab6f73b5dc, type: 3}
       propertyPath: playerStats
       value: 
-      objectReference: {fileID: 627441091}
+      objectReference: {fileID: 0}
     - target: {fileID: 7981589005821422847, guid: 9556e24e55c65304fadfa0ab6f73b5dc, type: 3}
       propertyPath: playerHealth
       value: 
-      objectReference: {fileID: 627441090}
+      objectReference: {fileID: 627441099}
     - target: {fileID: 8366296940584347530, guid: 9556e24e55c65304fadfa0ab6f73b5dc, type: 3}
       propertyPath: m_Camera
       value: 
