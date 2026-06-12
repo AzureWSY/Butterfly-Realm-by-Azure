@@ -99966,7 +99966,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8930e97bdb322ba42b0370b481f82941, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 7
+  moveSpeed: 6.75
   jumpforce: 10
   maxfallspeed: 13
   rayLength: 0.15
