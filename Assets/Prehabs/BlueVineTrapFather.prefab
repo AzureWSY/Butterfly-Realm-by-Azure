@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1093542598412396244}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 43, y: -3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -92,7 +92,7 @@ Transform:
   m_GameObject: {fileID: 6591207473322614529}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 26, y: 8, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -411,15 +411,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 961d4ded2f3cc8a48a1b1fc7194271a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentVineType: 0
   vineRoot: {fileID: 8555933909035096637}
   segmentCount: 35
   attackSpeed: 36
-  holdTime: 0.8
+  damageAmount: 5
   aggroRadius: 7
+  detectionAngle: 45
+  baseDirection: {x: 0, y: -1}
+  startDelay: 0.5
+  flickerWarning: 1
+  manualPhaseOffset: 0
+  holdTime: 0.8
   specificThrowPoint: {fileID: 6770021859946428946}
   throwMoveSpeed: 25
-  damageAmount: 5
+  wrapRadius: 1.2
   swaySpeed: 2.5
   swayMagnitude: 1.2
-  wrapRadius: 1.2
+  sweepAngle: 45
+  sweepSpeed: 2
+  pierceWidthRoot: 0.6
+  pierceWidthTip: 0.1
+  pierceRetractSpeed: 8
   vineLight: {fileID: 3836143175181386508}
