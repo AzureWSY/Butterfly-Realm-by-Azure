@@ -362,4 +362,48 @@ public class LaserChaseDriver : LaserMovementDriverBase
         // 3. 随后自毁当前的驱动脚本组件，防止后续代码继续空指针空跑，同时保证挂载的宿主GameObject完好无损
         Destroy(this);
     }
+    private void OnDrawGizmosSelected()
+    {
+        if (laserCore == null) return;
+
+        Vector3 laserPos = laserCore.transform.position;
+
+        Vector2 worldCenter =
+            (Vector2)laserPos +
+            (Vector2)laserCore.transform.TransformDirection(navigationOffset);
+
+        // 导航连接线
+        Gizmos.color = Color.white;
+        Gizmos.DrawLine(laserPos, worldCenter);
+
+        // 导航中心点
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawSphere(worldCenter, 0.05f);
+
+        // 导航盒
+        Gizmos.color =
+            zoneTimer >= maxZoneLoopTime
+            ? Color.red
+            : Color.green;
+
+        Matrix4x4 oldMatrix = Gizmos.matrix;
+
+        Gizmos.matrix = Matrix4x4.TRS(
+            worldCenter,
+            laserCore.transform.rotation,
+            Vector3.one);
+
+        Gizmos.DrawWireCube(
+            Vector3.zero,
+            new Vector3(
+                navigationSize.x,
+                navigationSize.y,
+                0.05f));
+
+        Gizmos.matrix = oldMatrix;
+
+        // loop检测范围
+        Gizmos.color = new Color(1f, 0.8f, 0f, 0.5f);
+        Gizmos.DrawWireSphere(lastZoneCenter, loopCheckRadius);
+    }
 }
