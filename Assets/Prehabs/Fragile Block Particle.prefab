@@ -747,13 +747,13 @@ ParticleSystem:
     m_TextureColorAffectsParticles: 1
     m_TextureAlphaAffectsParticles: 1
     m_TextureBilinearFiltering: 0
-    randomDirectionAmount: 0
+    randomDirectionAmount: 0.2
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
       value: 0.125
       mode: 0
-      spread: 0
+      spread: 0.05
       speed:
         serializedVersion: 2
         minMaxState: 0

@@ -16,8 +16,10 @@ public class PlayerFloorInteraction : MonoBehaviour, IFloorInteractable
     public PlayerEnergySystem PlayerEnergy => Hub.Energy;
     private Rigidbody2D rb => Hub.Rb;
     
-
+    // 👑 运行时缓存：只盯着上一次踩中的那一块具体地砖
+    private AttributeFloor lastTriggeredFloor;
     private float lastTriggerTime;
+    
 
     private void Awake()
     {
@@ -29,20 +31,38 @@ public class PlayerFloorInteraction : MonoBehaviour, IFloorInteractable
 
     public void OnEnterFloor(AttributeFloor floor)
     {
-        // 顺着 Hub 转发判空防御线（死人踩踏直接熔断）
-        if (HealthSystem == null || HealthSystem.CurrentHealth <= 0 || Time.time - lastTriggerTime < 0.1f) return;
+        // 1. 死亡防御线
+        if (HealthSystem == null || HealthSystem.IsDead) return;
 
+        // 2. 👑 绝杀手感粘滞 Bug：精准去重锁
+        // 只有当玩家在 0.1 秒内连续碰撞【同一块地砖实例】时，才判定为物理多重碰撞体抖动，进行熔断拦截。
+        // 如果碰到了【不同的相邻地砖】(floor != lastTriggeredFloor)，直接零延迟秒级放行，保证跑酷手感绝对丝滑！
+        if (floor == lastTriggeredFloor && Time.time - lastTriggerTime < 0.1f)
+        {
+            return;
+        }
+
+        // 3. 伤害地板无敌期拦截 (顺应上一轮的多态解耦设计)
+        if (floor.effectConfig != null && floor.effectConfig.CanBeImmunedByInvincibility && HealthSystem.IsInvincible)
+        {
+            return;
+        }
+
+        // 4. 绝对放行安全区：正式执行效果
         if (floor.IsInteractable && floor.effectConfig != null)
         {
+            // 👑 运行时刷新：记录本次触发的绝对真理地砖和时间
+            lastTriggeredFloor = floor;
             lastTriggerTime = Time.time;
-            // 执行多态图纸逻辑，安全地把自己（this）送过去
+
+            // 执行多态图纸逻辑
             floor.effectConfig.Execute(this, floor);
         }
     }
 
     public void OnExitFloor(AttributeFloor floor)
     {
-        if (HealthSystem == null || HealthSystem.CurrentHealth <= 0) return;
+        if (HealthSystem == null || HealthSystem.IsDead) return;
         floor.effectConfig?.ExecuteExit(this, floor);
     }
 

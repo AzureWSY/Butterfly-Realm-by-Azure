@@ -1,13 +1,13 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // µ¥Àı£ºÈÃÈ«ÓÎÏ·ÈÎºÎ½Å±¾¶¼ÄÜË²¼äÕÒµ½Ëü
-    // ¹¤Òµ¼¶±ê×¼£ºÈ«¾ÖÎ¨Ò»³£×¤µ¥Àı
+    // å•ä¾‹ï¼šè®©å…¨æ¸¸æˆä»»ä½•è„šæœ¬éƒ½èƒ½ç¬é—´æ‰¾åˆ°å®ƒ
+    // å·¥ä¸šçº§æ ‡å‡†ï¼šå…¨å±€å”¯ä¸€å¸¸é©»å•ä¾‹
     public static GameManager Instance { get; private set; }
-    private Vector3 currentRespawnPos; // ´æÔÚ°à³¤ÄÔ×ÓÀïµÄ¸´»î×ø±ê
+    private Vector3 currentRespawnPos; // å­˜åœ¨ç­é•¿è„‘å­é‡Œçš„å¤æ´»åæ ‡
     private PlayerHub playerHub;
-    // ÕæÕıµÄ¡¢²»¿ÉÄ¥ÃğµÄÈ«¾Öµµ°¸
+    // çœŸæ­£çš„ã€ä¸å¯ç£¨ç­çš„å…¨å±€æ¡£æ¡ˆ
     public int currentCloneID = 28;
  
     private void Awake()
@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // ¿ç³¡¾°²»ËÀ£¬¼ÇÒäÓÀ´æ
+            DontDestroyOnLoad(gameObject); // è·¨åœºæ™¯ä¸æ­»ï¼Œè®°å¿†æ°¸å­˜
         }
         else
         {
@@ -37,32 +37,49 @@ public class GameManager : MonoBehaviour
 
         if (LaserTrapManager.Instance != null && playerHub.Collider != null)
         {
-            // ËãºÃÖĞĞÄ£¬Ö÷¶¯ÍÆÏÂÈ¥£¬ÈÃÏÂ²ãÍêÈ«±ä³É±»¶¯ÌıÁîµÄ¹¤¾ß
+            // ç®—å¥½ä¸­å¿ƒï¼Œä¸»åŠ¨æ¨ä¸‹å»ï¼Œè®©ä¸‹å±‚å®Œå…¨å˜æˆè¢«åŠ¨å¬ä»¤çš„å·¥å…·
             Vector3 currentCenter = playerHub.Collider.bounds.center;
             LaserTrapManager.Instance.UpdateTrackTarget(currentCenter);
         }
     }
 
 
-    // ¿ª·Å¸øºûµû´æµµµãµ÷ÓÃµÄ¡¾Ö¸Áî¡¿½ÓÊÕ¿Ú
+    // å¼€æ”¾ç»™è´è¶å­˜æ¡£ç‚¹è°ƒç”¨çš„ã€æŒ‡ä»¤ã€‘æ¥æ”¶å£
     public void SetNewRespawnPoint(Vector3 newPos) => currentRespawnPos = newPos;
 
-    // ÕæÕıµÄ¸´»îÂß¼­
+    // çœŸæ­£çš„å¤æ´»é€»è¾‘
     private void RespawnPlayer()
     {
-        Debug.Log("<color=red>GameManager ÊÕµ½ËÀÑ¶£¬¾ØÕóÕıÔÚÈÛ¶ÏÖØ×é...</color>");
+        Debug.Log("<color=red>GameManager æ”¶åˆ°æ­»è®¯ï¼ŒçŸ©é˜µæ­£åœ¨ç†”æ–­é‡ç»„...</color>");
 
         ExecuteCurrentClone();
 
+
         if (playerHub != null) playerHub.Respawn(currentRespawnPos);
 
+        // 2. ğŸ”¥ ã€ç»ˆæå¿«è½¦é“ã€‘ï¼šç”±äºæ¢æˆäº† Listï¼Œæˆ‘ä»¬å¯ä»¥ç”¨å®Œå…¨è§„é¿ä»»ä½•æ¥å£è°ƒç”¨çš„ç»å…¸ for å¾ªç¯ï¼
+        // æ•°ç»„å¤§å°åœ¨å†…å­˜ä¸­æ˜¯è¿ç»­çš„ï¼ŒCPU ç¼“å­˜å‘½ä¸­ç‡ï¼ˆCache Localityï¼‰ç›´æ¥æ‹‰æ»¡ï¼
+        int LaserTrapTriggercount = LaserChaseTrigger.ActiveTriggersList.Count;
+        for (int i = 0; i < LaserTrapTriggercount; i++)
+        {
+            LaserChaseTrigger trigger = LaserChaseTrigger.ActiveTriggersList[i];
+
+            // å¼ºç½‘é˜²æŠ¤ï¼šå³ä½¿æœ‰æç«¯ç½•è§çš„åœºæ™¯åˆ‡æ¢æ„å¤–ä¸¢å¤±ï¼Œnull æ ¡éªŒä¹Ÿèƒ½åœ¨è¿ç»­å†…å­˜ä¸­ä¸€é—ªè€Œè¿‡
+            if (trigger != null)
+            {
+                trigger.ResetTriggerState();
+            }
+        }
+
+        Debug.Log($"<color=#00FFCC>[GameManager]</color> è¿ç»­å†…å­˜åå†Œé‡ç½®å®Œæ¯•ï¼å®Œç¾æ‰¹é‡é‡è£… <color=yellow>{LaserTrapTriggercount}</color> ä¸ªåœ°ç –è§¦å‘å™¨ã€‚");
+        
         LaserTrapManager.Instance?.ResetAllDrivers();
     }
-    // ´¦¾öºóµ÷ÓÃµÄ·½·¨
+    // å¤„å†³åè°ƒç”¨çš„æ–¹æ³•
     public void ExecuteCurrentClone()
     {
         currentCloneID++;
-        // ÕâÀïÉõÖÁ¿ÉÒÔË³±ã´¥·¢È«¾Ö´æµµÂß¼­£ºSaveSystem.SaveGame();
+        // è¿™é‡Œç”šè‡³å¯ä»¥é¡ºä¾¿è§¦å‘å…¨å±€å­˜æ¡£é€»è¾‘ï¼šSaveSystem.SaveGame();
     }
     public void RegisterPlayerHub(PlayerHub hub)
     {
@@ -78,7 +95,7 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log(
-            $"<color=green>¡¾GameManager¡¿No.{currentCloneID} ´ú¿ËÂ¡ÌåÊàÅ¦ÒÑ³É¹¦¼¤»î²¢½ÓÈëÖĞÑëÍøÂç£¡</color>"
+            $"<color=green>ã€GameManagerã€‘No.{currentCloneID} ä»£å…‹éš†ä½“æ¢çº½å·²æˆåŠŸæ¿€æ´»å¹¶æ¥å…¥ä¸­å¤®ç½‘ç»œï¼</color>"
         );
     }
     private void SubscribePlayerDeath()
