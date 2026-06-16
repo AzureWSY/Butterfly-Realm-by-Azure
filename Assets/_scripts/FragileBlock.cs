@@ -1,22 +1,49 @@
-using UnityEngine;
+ï»¿using UnityEngine;
+using UnityEngine.Pool;
 
 public class FragileBlock : MonoBehaviour
 {
-    [Header("×é¼şÒıÓÃ")]
-    [Tooltip("·½¿éµÄÊµÌåÅö×²Ìå£¨·Ç Trigger£©")]
+    [Header("ç»„ä»¶å¼•ç”¨")]
+    [Tooltip("æ–¹å—çš„å®ä½“ç¢°æ’ä½“ï¼ˆé Triggerï¼‰")]
     public BoxCollider2D solidCollider;
 
-    [Header("ÌØĞ§")]
-    public GameObject breakEffect;
+    [Header("ç‰¹æ•ˆé¢„åˆ¶ä½“")]
+    public GameObject breakEffectPrefab;
+
+    // ==========================================
+    // ğŸ‘‘ ã€æ ¸å¿ƒé‡æ„ã€‘ï¼šç„Šä¸Š static å…³é”®å­—ï¼
+    // è®©å…¨åœºæ™¯ä¸ç®¡æ˜¯ 100 ä¸ªè¿˜æ˜¯ 1000 ä¸ªæ–¹å—ï¼Œåœ¨å†…å­˜é‡Œæ­»æ­»å…¬ç”¨åŒä¸€ä¸ªå¤§æ± å­ï¼
+    // ==========================================
+    private static IObjectPool<GameObject> sharedEffectPool;
+    private static GameObject staticPrefabRef; // é™æ€å·¥å‚éœ€è¦ç”¨åˆ°çš„é¢„åˆ¶ä½“å¼•è„š
+
+    private void Awake()
+    {
+        // åªè¦æœ‰ä»»æ„ä¸€ä¸ªæ–¹å—é†’æ¥ï¼Œå°±æŠŠé¢„åˆ¶ä½“å¼•è„šç„Šæ­»ï¼Œé˜²æ­¢é™æ€æ–¹æ³•æ‰¾ä¸åˆ°èµ„æº
+        if (breakEffectPrefab != null)
+        {
+            staticPrefabRef = breakEffectPrefab;
+        }
+
+        // æ ¸å¿ƒå…³å¡é”ï¼šä¸ç®¡æœ‰å¤šå°‘æ–¹å—ï¼Œå…¨å±€åªåˆå§‹åŒ–ã€å”¯ä¸€ä¸€æ¬¡ã€‘æ± å­
+        if (sharedEffectPool == null && staticPrefabRef != null)
+        {
+            sharedEffectPool = new ObjectPool<GameObject>(
+                createFunc: CreateEffectInstance,
+                actionOnGet: (obj) => obj.SetActive(true),
+                actionOnRelease: (obj) => obj.SetActive(false),
+                actionOnDestroy: (obj) => Destroy(obj),
+                collectionCheck: true,
+                defaultCapacity: 10,                   // åˆå§‹å®¹é‡ç»™ 10 ä¸ª
+                maxSize: 30                            // åŠ¨ä½œçˆ†å‘æœŸä¸Šé™ 30 ä¸ª
+            );
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // ¡¾ºËĞÄÓÅ»¯¡¿£ºTryGetComponent Ò»²½µ½Î»
-        // Èç¹ûÅöµ½ÎÒµÄÎïÌåÉíÉÏÓĞ Playercontrol ½Å±¾£¬¾Í°ÑËüÌáÈ¡³öÀ´·Åµ½ pc ±äÁ¿Àï
         if (other.TryGetComponent<Playercontrol>(out Playercontrol pc))
         {
-            // ¡¾¼Ü¹¹Ê¤Àû¡¿£º×´Ì¬Çı¶¯£¡
-            // ²»ÔÙ²é»§¿Ú²âËÙ¶È£¬Ö»ÒªÄãÉíÉÏÓĞ¡°ÃÍ³åÎŞµĞ¡±µÄ Buff£¬Ö±½ÓËé£¡
             if (pc.isSuperJumping)
             {
                 DoBreak();
@@ -26,19 +53,43 @@ public class FragileBlock : MonoBehaviour
 
     private void DoBreak()
     {
-        // ÏÈ¹ØµôÊµÌåÅö×²Ìå£¬ÈÃÍæ¼ÒÎŞ×èÁ¦´©¹ı£¬±£³ÖË¿»¬
         if (solidCollider != null)
         {
             solidCollider.enabled = false;
         }
 
-        // ²¥·ÅËéÁÑÌØĞ§
-        if (breakEffect != null)
+        // å“ªæ€•å½“å‰æ–¹å—ä¸‹ä¸€ç§’å°±è¦ active = false äº†ï¼Œä¹Ÿå®Œå…¨ä¸è€½è¯¯å…¨å±€æ± å­çš„è¿è½¬ï¼
+        if (sharedEffectPool != null)
         {
-            Instantiate(breakEffect, transform.position, Quaternion.identity);
+            GameObject effect = sharedEffectPool.Get();
+            effect.transform.position = transform.position;
+            effect.transform.rotation = Quaternion.identity;
         }
 
-        // Ïú»Ù×ÔÉí
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+    }
+
+    public void ResetBlock()
+    {
+        gameObject.SetActive(true);
+        if (solidCollider != null)
+        {
+            solidCollider.enabled = true;
+        }
+    }
+
+    // é™æ€ç”Ÿäº§å·¥å‚ï¼šå¿…é¡»æ˜¯ static æ–¹æ³•ï¼Œæ‰èƒ½è¢«é™æ€æ± å­å›è°ƒ
+    private static GameObject CreateEffectInstance()
+    {
+        GameObject effectGo = Instantiate(staticPrefabRef);
+        var pooledScript = effectGo.GetComponent<PooledEffect>();
+        if (pooledScript == null)
+        {
+            pooledScript = effectGo.AddComponent<PooledEffect>();
+        }
+
+        // æŠŠè¿™ä¸ªå…¨å±€å”¯ä¸€çš„é™æ€æ± å­æ³¨å…¥ç»™ç‰¹æ•ˆï¼Œè®©å®ƒæ’­å®Œåè®¤å¾—å›å®¶çš„è·¯
+        pooledScript.InitPoolReference(sharedEffectPool);
+        return effectGo;
     }
 }
