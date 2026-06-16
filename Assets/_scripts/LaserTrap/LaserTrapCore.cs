@@ -171,14 +171,32 @@ public class LaserTrapCore : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (isShuttingDown) return;
-        if (!collision.gameObject.CompareTag("Player"))  return;
+        if (!collision.gameObject.CompareTag("Player")) return;
 
+        // 1. 保留你的老解谜通知事件（供其他机关或者音效、震屏组件监听）
         OnPlayerHitLaser?.Invoke(collision.gameObject);
-        if (collision.gameObject.TryGetComponent<CharacterHealth>(out var health))  health.TakeDamage(damageAmount);
 
+        // 2. 👑 强类型代码绝杀线：无视任何面板拖拽，用绝对真理直接斩杀！
+        // 顺着碰到的 Player 身体直接抓取大管家枢纽 PlayerHub
+        if (collision.gameObject.TryGetComponent<PlayerHub>(out var hub))
+        {
+            if (hub.Health != null)
+            {
+                Debug.Log($"<color=red>💥 [激光陷阱] 精准捕获运行时玩家 {collision.gameObject.name}，强行执行 InstantKill 处决！</color>");
+
+                // 🌟 降维打击：直接调用我们写好的最强处决函数！
+                // 它会瞬间蒸发千分之一秒前你踩地板拿到的所有无敌时间，血量瞬间归零，并干净利落地送入 Respawn 生命周期！
+                hub.Health.InstantKill();
+            }
+        }
+
+        // 3. 你的传送关卡地板机制保持不变
         if (teleportOnHit && teleportTarget != null)
         {
-            if (collision.gameObject.TryGetComponent<PlayerHub>(out var hub)) hub.Teleport(teleportTarget.position);
+            if (collision.gameObject.TryGetComponent<PlayerHub>(out var hubComponent))
+            {
+                hubComponent.Teleport(teleportTarget.position);
+            }
         }
     }
 }

@@ -65,7 +65,7 @@ public class PlayerHub : MonoBehaviour
 
         if (Collider != null) Collider.enabled = true;
 
-        if (Health != null) Health.Heal(Health.MaxHealth);
+        if (Health != null) Health.ResetStatusOnRespawn();
 
         if (Control != null) Control.SetMovementPermission(true);
     }
