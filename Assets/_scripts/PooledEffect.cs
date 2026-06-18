@@ -1,51 +1,31 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.Pool;
 
+[RequireComponent(typeof(ParticleSystem))]
 public class PooledEffect : MonoBehaviour
 {
-    private ParticleSystem targetParticleSystem;
     private IObjectPool<GameObject> myPool;
-    private float effectDuration;
+    private ParticleSystem ps;
 
     private void Awake()
     {
-        targetParticleSystem = GetComponent<ParticleSystem>();
-
-        // ¼ÆËãÁ£×ÓµÄ×î´óÉúÃüÖÜÆÚ = »ù´¡Ê±³¤ + Á£×ÓËæ»ú´æ»îµÄ×î´óÊ±¼ä
-        if (targetParticleSystem != null)
-        {
-            var mainModule = targetParticleSystem.main;
-            effectDuration = mainModule.duration + mainModule.startLifetime.constantMax;
-        }
-        else
-        {
-            effectDuration = 1.5f; // ±£µ×Ê±¼ä
-        }
+        ps = GetComponent<ParticleSystem>();
     }
 
-    // ³õÊ¼»¯×¢ÈëËùÊôµÄ¶ÔÏó³ØÒıÓÃ
     public void InitPoolReference(IObjectPool<GameObject> pool)
     {
         myPool = pool;
     }
 
-    private void OnEnable()
-    {
-        // Ã¿´Î´Ó³Ø×ÓÀïÀÌ³öÀ´Ê±£¬ÖØĞÂ¼ÆÊ±×¼±¸»ØÊÕ
-        CancelInvoke(nameof(ReturnToPool));
-        Invoke(nameof(ReturnToPool), effectDuration);
-    }
-
-    private void ReturnToPool()
+    // ========================================================
+    // ğŸ‘‘ ã€å®˜æ–¹é’¦å®šç»æ€ã€‘ï¼šUnity åº•å±‚ C++ ç›´æ¥é©±åŠ¨çš„åŸç”Ÿåœæ­¢å›è°ƒ
+    // é›¶åƒåœ¾äº§ç”Ÿï¼Œç™¾åˆ†ä¹‹ç™¾ç²¾å‡†ï¼ˆå“ªæ€•ç²’å­è¢«é£å¹é•¿äº†æ—¶é—´ä¹Ÿèƒ½å®Œç¾é€‚åº”ï¼‰
+    // ========================================================
+    private void OnParticleSystemStopped()
     {
         if (myPool != null && gameObject.activeSelf)
         {
-            myPool.Release(gameObject); // °²È«»Ø³Ø
+            myPool.Release(gameObject); // ç²¾å‡†å›æ± 
         }
-    }
-
-    private void OnDisable()
-    {
-        CancelInvoke(nameof(ReturnToPool));
     }
 }

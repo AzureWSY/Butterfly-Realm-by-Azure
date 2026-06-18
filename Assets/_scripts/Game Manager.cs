@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour
     private PlayerHub playerHub;
     // 真正的、不可磨灭的全局档案
     public int currentCloneID = 28;
- 
+    // 🌟 1. 在你的 GameManager.cs 顶部或成员变量区声明一个当前抓取器句柄槽位
+    private BlueVineTrap_Ultimate_MultiCollision currentActiveGrabber = null;
+
     private void Awake()
     {
         if (Instance == null)
@@ -52,10 +54,19 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("<color=red>GameManager 收到死讯，矩阵正在熔断重组...</color>");
 
+        // 🚨【最高优先级：中央集权强控熔断闸】🚨
+        // 在搬运肉体和重组克隆体的前一微秒，必须雷打不动地执行定点轰杀，强行斩断一切 Transform 坐标强刷践踏！
+        if (currentActiveGrabber != null)
+        {
+            currentActiveGrabber.ForceReleaseAndAbort(); // 轰碎触手内的一切 while 强刷循环
+            currentActiveGrabber = null; // 强行清空槽位，不留任何后患
+        }
+
         ExecuteCurrentClone();
 
 
         if (playerHub != null) playerHub.Respawn(currentRespawnPos);
+       
 
         // 2. 🔥 【终极快车道】：由于换成了 List，我们可以用完全规避任何接口调用的经典 for 循环！
         // 数组大小在内存中是连续的，CPU 缓存命中率（Cache Locality）直接拉满！
@@ -73,7 +84,10 @@ public class GameManager : MonoBehaviour
 
         Debug.Log($"<color=#00FFCC>[GameManager]</color> 连续内存名册重置完毕！完美批量重装 <color=yellow>{LaserTrapTriggercount}</color> 个地砖触发器。");
         
-        LaserTrapManager.Instance?.ResetAllDrivers();
+        LaserTrapManager.Instance?.ResetAllDrivers(); 
+        Debug.Log(
+        $"Respawn Pos = {playerHub.transform.position}"
+        );
     }
     // 处决后调用的方法
     public void ExecuteCurrentClone()
@@ -81,6 +95,8 @@ public class GameManager : MonoBehaviour
         currentCloneID++;
         // 这里甚至可以顺便触发全局存档逻辑：SaveSystem.SaveGame();
     }
+
+    //Part 1 登记玩家
     public void RegisterPlayerHub(PlayerHub hub)
     {
         UnSubscribePlayerDeath();
@@ -98,6 +114,7 @@ public class GameManager : MonoBehaviour
             $"<color=green>【GameManager】No.{currentCloneID} 代克隆体枢纽已成功激活并接入中央网络！</color>"
         );
     }
+
     private void SubscribePlayerDeath()
     {
         if (playerHub != null && playerHub.Health != null) playerHub.Health.OnPlayerDeath += RespawnPlayer;
@@ -106,4 +123,21 @@ public class GameManager : MonoBehaviour
     {
         if (playerHub != null && playerHub.Health != null) playerHub.Health.OnPlayerDeath -= RespawnPlayer;
     }
+
+    // Part 2. 暴露给藤蔓调用的登记与注销接口
+    public void RegisterCurrentGrabber(BlueVineTrap_Ultimate_MultiCollision grabber)
+    {
+        currentActiveGrabber = grabber;
+        Debug.Log($"<color=orange>[指挥部记] 玩家已被藤蔓陷阱 {grabber.name} 捕获，句柄已被中央锁定。</color>");
+    }
+
+    public void ClearCurrentGrabber(BlueVineTrap_Ultimate_MultiCollision grabber)
+    {
+        if (currentActiveGrabber == grabber)
+        {
+            currentActiveGrabber = null;
+            Debug.Log("<color=green>[指挥部登记清空] 玩家已被正常抛出或挣脱，句柄解控。</color>");
+        }
+    }
+
 }
