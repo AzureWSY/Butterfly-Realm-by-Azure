@@ -109,7 +109,21 @@ public class BlueVineTrap_Ultimate_MultiCollision : MonoBehaviour
 
     private void Update()
     {
-        if (playerHub == null || playerHub.Collider == null) return;
+        if (playerHub == null)
+        {
+            playerHub = FindAnyObjectByType<PlayerHub>();
+
+            if (playerHub != null)
+            {
+                playerColliders =
+                    playerHub.GetComponentsInChildren<Collider2D>();
+            }
+
+            return;
+        }
+
+        if (playerHub.Collider == null)
+            return;
 
         switch (currentState)
         {
@@ -175,36 +189,72 @@ public class BlueVineTrap_Ultimate_MultiCollision : MonoBehaviour
     // =========================================================================
     public void ForceReleaseAndAbort()
     {
-        if (currentState == VineState.Attacking || currentState == VineState.Struggling)
+        Debug.Log("<color=red>⚡【GameManager 强控熔断】触手控制被中央无条件强行拆除！</color>");
+
+        // =========================
+        // 1. 停止当前藤蔓全部协程
+        // =========================
+        StopAllCoroutines();
+
+        if (escapeProgressBar != null)
         {
-            Debug.Log("<color=red>⚡【GameManager 强控熔断】触手控制被中央无条件强行拆除！</color>");
-
-            StopAllCoroutines();
-
-            if (escapeProgressBar != null) escapeProgressBar.gameObject.SetActive(false);
-
-            // 🔥 核心重构：利用老哥你的单例架构进行强类型 $O(1)$ 干净注销，砍掉繁琐的反射
-            if (GameManager.Instance != null)
-            {
-                GameManager.Instance.ClearCurrentGrabber(this);
-            }
-
-            if (playerHub != null)
-            {
-                if (playerHub.Control != null) playerHub.Control.isBeingThrown = false;
-                playerHub.Control.SetMovementPermission(true);
-                if (playerHub.Rb != null) playerHub.Rb.gravityScale = 3f;
-            }
-
-            if (playerColliders != null)
-            {
-                foreach (Collider2D col in playerColliders) col.enabled = true;
-            }
-
-            // 换算尖端绝对坐标，执行触手自我退场回收
-            Vector2 abortedTipPos = transform.TransformPoint(tipCollider.offset);
-            StartCoroutine(CleanDeathRetractRoutine(abortedTipPos));
+            escapeProgressBar.gameObject.SetActive(false);
         }
+
+        // =========================
+        // 2. 从中央登记表注销
+        // =========================
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ClearCurrentGrabber(this);
+        }
+
+        // =========================
+        // 3. 恢复玩家控制权
+        // =========================
+        if (playerHub != null)
+        {
+            if (playerHub.Control != null)
+            {
+                playerHub.Control.isBeingThrown = false;
+                playerHub.Control.SetMovementPermission(true);
+            }
+
+            if (playerHub.Rb != null)
+            {
+                playerHub.Rb.linearVelocity = Vector2.zero;
+                playerHub.Rb.angularVelocity = 0f;
+            }
+        }
+
+        // =========================
+        // 4. 恢复碰撞体
+        // =========================
+        if (playerColliders != null)
+        {
+            foreach (Collider2D col in playerColliders)
+            {
+                if (col != null)
+                {
+                    col.enabled = true;
+                }
+            }
+        }
+
+        // =========================
+        // 5. 保存当前尖端位置
+        // =========================
+        Vector2 abortedTipPos = transform.TransformPoint(tipCollider.offset);
+
+        // =========================
+        // 6. 清理抓取状态
+        // =========================
+        ReleasePlayerReferences();
+
+        // =========================
+        // 7. 播放藤蔓回收动画
+        // =========================
+        StartCoroutine(CleanDeathRetractRoutine(abortedTipPos));
     }
 
     private IEnumerator CleanDeathRetractRoutine(Vector2 abortedStartPos)
@@ -380,6 +430,7 @@ public class BlueVineTrap_Ultimate_MultiCollision : MonoBehaviour
                     playerHub.Rb.gravityScale = 1f;
                     playerHub.Control.SetMovementPermission(true);
                 }
+
             }
         }
 
@@ -395,6 +446,8 @@ public class BlueVineTrap_Ultimate_MultiCollision : MonoBehaviour
 
         if (vineLight != null) { vineLight.color = originalLightColor; vineLight.intensity = originalIntensity; }
         currentState = VineState.Idle;
+        Debug.Log($"State={currentState}");
+        Debug.Log($"playerHub={playerHub}");
     }
 
     // =========================================================================
@@ -493,7 +546,7 @@ public class BlueVineTrap_Ultimate_MultiCollision : MonoBehaviour
         currentState = VineState.Retracting;
         while (Vector2.Distance(tipPos, vineRoot.position) > 0.2f)
         {
-            tipPos = Vector2.MoveTowards(vineRoot.position, tipPos, attackSpeed * 0.8f * Time.deltaTime);
+            tipPos = Vector2.MoveTowards(tipPos,vineRoot.position,attackSpeed * 0.8f * Time.deltaTime);
             DrawAttackingVine(tipPos); UpdateColliderPosition(tipPos); AimLightAtTarget(tipPos);
             yield return null;
         }
@@ -666,5 +719,19 @@ public class BlueVineTrap_Ultimate_MultiCollision : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         playerHub.Control.SetMovementPermission(true);
+    }
+
+    /// <summary>
+    /// 释放本次抓取过程中缓存的一切玩家相关引用和状态
+    /// </summary>
+    private void ReleasePlayerReferences()
+    {
+        playerHub = null;
+        playerColliders = null;
+
+        currentEscapeEnergy = 0f;
+        currentSteerAngle = 0f;
+
+        Debug.Log("<color=cyan>[BlueVine]</color> 已清理所有玩家引用与抓取状态。");
     }
 }

@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public int currentCloneID = 28;
     // 🌟 1. 在你的 GameManager.cs 顶部或成员变量区声明一个当前抓取器句柄槽位
     private BlueVineTrap_Ultimate_MultiCollision currentActiveGrabber = null;
+    public BlueVineTrap_Ultimate_MultiCollision CurrentActiveGrabber => currentActiveGrabber;
 
     private void Awake()
     {
