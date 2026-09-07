@@ -29,7 +29,11 @@ public class AttributeFloor : MonoBehaviour
     {
         if (interactionTrigger == null) interactionTrigger = GetComponent<Collider2D>();
         if (interactionTrigger != null) interactionTrigger.isTrigger = true; // 强制锁死为 Trigger
-        if (visualBridge != null) visualBridge.HideClock();
+        if (visualBridge != null)
+        {
+            visualBridge.InitParticleColor(feedbackColor);
+            visualBridge.HideClock();
+        }
     }
     private void OnEnable()
     {

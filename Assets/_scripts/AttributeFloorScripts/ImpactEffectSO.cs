@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "ButterflyRealm/Effects/Impact")]
@@ -52,5 +53,11 @@ public class ImpactEffectSO : FloorEffectSO
         // 4. ¿ÛÑª + »÷·É
         player.HealthSystem.TakeDamage(damageAmount);
         player.StartKnockback(finalForce);
+
+        Vector2 playerPreVelocity = player.rb.linearVelocity;
+
+        IImpactSignalRecevier recevier = floor.GetComponentInParent<IImpactSignalRecevier>();
+
+        if (recevier != null) recevier.OnImpact(playerPreVelocity);
     }
 }

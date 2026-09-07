@@ -32,6 +32,9 @@ public class GameManager : MonoBehaviour
         if (LaserTrapManager.Instance == null)
             return;
 
+        if (DynamicFloorManager.Instance == null)
+            return;
+
         if (playerHub == null)
             return;
 
@@ -65,6 +68,8 @@ public class GameManager : MonoBehaviour
 
         ExecuteCurrentClone();
 
+        
+
 
         if (playerHub != null) playerHub.Respawn(currentRespawnPos);
        
@@ -86,9 +91,14 @@ public class GameManager : MonoBehaviour
         Debug.Log($"<color=#00FFCC>[GameManager]</color> 连续内存名册重置完毕！完美批量重装 <color=yellow>{LaserTrapTriggercount}</color> 个地砖触发器。");
         
         LaserTrapManager.Instance?.ResetAllDrivers(); 
+
+        DynamicFloorManager.Instance?.ResetAllFloors();
+        Debug.Log("动态平台重置完毕");
+
         Debug.Log(
         $"Respawn Pos = {playerHub.transform.position}"
         );
+
     }
     // 处决后调用的方法
     public void ExecuteCurrentClone()
