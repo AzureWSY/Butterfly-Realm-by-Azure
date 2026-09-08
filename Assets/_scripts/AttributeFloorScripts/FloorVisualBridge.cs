@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
 using System.Collections;
@@ -15,7 +15,7 @@ public class FloorVisualBridge : MonoBehaviour
         public GameObject glowLayer;
         public GameObject glowlight;
 
-        [Header("UI 冷却时钟图片")]
+        [Header("UI 冷却时钟图片（池化后由池管理，此处仅作兜底）")]
         public Image cooldownClockImage;
         public Image cooldownClockRestImage;
 
@@ -28,6 +28,10 @@ public class FloorVisualBridge : MonoBehaviour
 
     [Header("🧩 视觉与UI资产绑定")]
     [SerializeField] private VisualReferences refs = new VisualReferences { burstParticleCount = 25 };
+
+    [Header("📌 UI 锚点（冷却时钟将定位到此 Transform）")]
+    [Tooltip("留空将自动搜索子物体 'Attribute Floor UI Anchor'，找不到则用自身位置")]
+    [SerializeField] private Transform uiAnchor;
 
     public SpriteRenderer MainRenderer => refs.mainRenderer;
 
@@ -44,6 +48,15 @@ public class FloorVisualBridge : MonoBehaviour
     private Color baseSpriteColor = Color.white;
     private Color baseShaderColor = Color.white; // 提取出来的 HDR 颜色
     private Coroutine activeFeedbackVisualRoutine;
+
+    // ===== 视距剔除状态 =====
+    private bool isCulled = false;
+    private bool visualsDesiredActive = true;
+
+    // ===== 时钟 UI 池化 =====
+    private ClockUIPool.ClockHandle rentedClock;
+    // 是否需要每帧跟随锚点（动态平台为 true）
+    private bool needsClockFollow = false;
 
     private void Awake()
     {
@@ -94,6 +107,16 @@ public class FloorVisualBridge : MonoBehaviour
         {
             refs.floorParticleSystem = GetComponentInChildren<ParticleSystem>(true);
         }
+
+        // 3. 自动绑定 UI 锚点
+        if (uiAnchor == null)
+        {
+            var anchor = transform.Find("Attribute Floor UI Anchor");
+            uiAnchor = anchor != null ? anchor : transform;
+        }
+
+        // 4. 检测是否挂在动态平台上（需要时钟每帧跟随）
+        needsClockFollow = GetComponentInParent<DynamicFloorController>() != null;
     }
 
     private void DetectShaderPropertyID()
@@ -154,6 +177,12 @@ public class FloorVisualBridge : MonoBehaviour
 
     public void SetVisualsActive(bool active)
     {
+        // 记录期望状态，供视距剔除恢复时使用
+        visualsDesiredActive = active;
+
+        // 视距剔除中：禁止开启昂贵的视觉效果
+        if (isCulled && active) return;
+
         if (refs.glowLayer != null) refs.glowLayer.SetActive(active);
         if (refs.glowlight != null) refs.glowlight.SetActive(active);
 
@@ -182,7 +211,8 @@ public class FloorVisualBridge : MonoBehaviour
             ApplyPropertyBlockColor(particleColor);
         }
 
-        Light2D light2D = refs.glowlight != null ? refs.glowlight.GetComponent<Light2D>() : null;
+        // 视距剔除中跳过灯光操作
+        Light2D light2D = (!isCulled && refs.glowlight != null) ? refs.glowlight.GetComponent<Light2D>() : null;
         float peakIntensity = baseLightIntensity * lightMultiplier;
 
         if (light2D != null)
@@ -192,8 +222,8 @@ public class FloorVisualBridge : MonoBehaviour
             refs.glowlight.SetActive(true);
         }
 
-        // 💥【粒子喷发与闪烁变色】
-        if (refs.floorParticleSystem != null)
+        // 💥【粒子喷发与闪烁变色】—— 视距剔除中跳过
+        if (refs.floorParticleSystem != null && !isCulled)
         {
             var particleMain = refs.floorParticleSystem.main;
             particleMain.startColor = particleColor;
@@ -261,24 +291,94 @@ public class FloorVisualBridge : MonoBehaviour
         activeFeedbackVisualRoutine = null;
     }
 
+    // =========================================================================
+    //  时钟 UI（池化版 + 兜底原始引用）
+    // =========================================================================
     public void ShowClock()
     {
-        if (refs.cooldownClockImage != null)
+        if (ClockUIPool.Instance != null)
         {
-            refs.cooldownClockImage.gameObject.SetActive(true);
-            refs.cooldownClockImage.fillAmount = 0f;
+            // 池化路径：从全局池借一个时钟 UI
+            if (rentedClock != null) return; // 已经在显示
+            rentedClock = ClockUIPool.Instance.Rent(uiAnchor.position);
         }
-        if (refs.cooldownClockRestImage != null) refs.cooldownClockRestImage.gameObject.SetActive(true);
+        else
+        {
+            // 兜底路径：无池时沿用原始本地引用
+            if (refs.cooldownClockImage != null)
+            {
+                refs.cooldownClockImage.gameObject.SetActive(true);
+                refs.cooldownClockImage.fillAmount = 0f;
+            }
+            if (refs.cooldownClockRestImage != null) refs.cooldownClockRestImage.gameObject.SetActive(true);
+        }
     }
 
     public void UpdateClockFill(float progress)
     {
-        if (refs.cooldownClockImage != null) refs.cooldownClockImage.fillAmount = progress;
+        if (rentedClock != null)
+            rentedClock.fillImage.fillAmount = progress;
+        else if (refs.cooldownClockImage != null)
+            refs.cooldownClockImage.fillAmount = progress;
     }
 
     public void HideClock()
     {
-        if (refs.cooldownClockImage != null) refs.cooldownClockImage.gameObject.SetActive(false);
-        if (refs.cooldownClockRestImage != null) refs.cooldownClockRestImage.gameObject.SetActive(false);
+        if (rentedClock != null)
+        {
+            if (ClockUIPool.Instance != null)
+                ClockUIPool.Instance.Return(rentedClock);
+            rentedClock = null;
+        }
+        else
+        {
+            if (refs.cooldownClockImage != null) refs.cooldownClockImage.gameObject.SetActive(false);
+            if (refs.cooldownClockRestImage != null) refs.cooldownClockRestImage.gameObject.SetActive(false);
+        }
+    }
+
+    // =========================================================================
+    //  视距剔除接口（由 FloorVisibilityCuller 每帧分批调用）
+    // =========================================================================
+
+    /// <summary>
+    /// 设置是否被视距剔除。culled=true 时关闭灯光和粒子，false 时恢复。
+    /// </summary>
+    public void SetCulled(bool culled)
+    {
+        if (isCulled == culled) return;
+        isCulled = culled;
+
+        if (culled)
+        {
+            // 关闭昂贵组件
+            if (refs.glowlight != null) refs.glowlight.SetActive(false);
+            if (refs.floorParticleSystem != null)
+            {
+                var emission = refs.floorParticleSystem.emission;
+                emission.enabled = false;
+            }
+        }
+        else
+        {
+            // 恢复：仅在逻辑状态允许时才真正开启
+            if (visualsDesiredActive)
+            {
+                SetVisualsActive(true);
+            }
+        }
+    }
+
+    // =========================================================================
+    //  动态平台时钟跟随
+    //  静态平台的 rentedClock 在 Rent 时已定位，无需每帧更新。
+    //  动态平台需要每帧将时钟位置同步到 UI 锚点。
+    // =========================================================================
+    private void LateUpdate()
+    {
+        if (rentedClock != null && needsClockFollow && uiAnchor != null)
+        {
+            rentedClock.root.transform.position = uiAnchor.position;
+        }
     }
 }
