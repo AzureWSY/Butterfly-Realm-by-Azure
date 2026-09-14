@@ -11,8 +11,12 @@ public class ImpactEffectSO : FloorEffectSO
     public float pushForce = 15f;
     public Vector2 pushDirection = new Vector2(-1f, 1f); // 默认左上
 
+
     public override void Execute(PlayerFloorInteraction player, AttributeFloor floor)
     {
+        if (floor.isConsumed) { return; }
+        
+
         // 1. 死亡预判
         if (player.HealthSystem.CurrentHealth <= damageAmount)
         {
@@ -42,7 +46,7 @@ public class ImpactEffectSO : FloorEffectSO
         {
             bool shouldPushUpOnly = pushingRight ? dx < 0f : dx > 0f;  // 左上地板：玩家在右边，右上地板：玩家在左边
 
-            finalForce = shouldPushUpOnly ? Vector2.up * pushForce * 0.75f : diagonalDirection * pushForce;
+            finalForce = shouldPushUpOnly ? (new Vector2(0,pushDirection.y)) * pushForce * 0.75f : diagonalDirection * pushForce;
         }
         else
         {
@@ -59,5 +63,8 @@ public class ImpactEffectSO : FloorEffectSO
         IImpactSignalRecevier recevier = floor.GetComponentInParent<IImpactSignalRecevier>();
 
         if (recevier != null) recevier.OnImpact(playerPreVelocity);
+
+        if (isOneTimeUse) floor.Consume();
+
     }
 }

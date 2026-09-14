@@ -17,5 +17,5 @@ MonoBehaviour:
   canRecover: 0
   recoverTime: 3
   damageAmount: 5
-  pushForce: 28
+  pushForce: 20
   pushDirection: {x: -0.8, y: -1}

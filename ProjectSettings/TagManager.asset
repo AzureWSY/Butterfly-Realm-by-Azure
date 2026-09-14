@@ -53,6 +53,9 @@ TagManager:
   - name: decoratelayer
     uniqueID: 1399123915
     locked: 0
+  - name: EntityObject(exclude player)
+    uniqueID: 1477586681
+    locked: 0
   - name: Player
     uniqueID: 1891871989
     locked: 0

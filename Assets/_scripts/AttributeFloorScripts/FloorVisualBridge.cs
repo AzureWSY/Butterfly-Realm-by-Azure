@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
 using System.Collections;
 
-public class FloorVisualBridge : MonoBehaviour
+public class FloorVisualBridge : MonoBehaviour, ICullable
 {
     [System.Serializable]
     public struct VisualReferences
@@ -53,6 +53,23 @@ public class FloorVisualBridge : MonoBehaviour
     private bool isCulled = false;
     private bool visualsDesiredActive = true;
 
+    // 性能优化：强缓存组件引用，杜绝高频 GetComponent 和 GameObject.SetActive
+    private Light2D cachedLight2D;
+    private Renderer cachedGlowRenderer;
+    private ParticleSystemRenderer cachedParticleRenderer;
+    // 性能优化：预分配定长数组作为剔除检测点，零 GC 开销
+    private readonly Vector3[] cullPoints = new Vector3[1];
+    private Transform cachedTransform;
+
+    public Vector3[] CullCheckPoints
+    {
+        get
+        {
+            cullPoints[0] = cachedTransform.position;
+            return cullPoints;
+        }
+    }
+
     // ===== 时钟 UI 池化 =====
     private ClockUIPool.ClockHandle rentedClock;
     // 是否需要每帧跟随锚点（动态平台为 true）
@@ -60,15 +77,27 @@ public class FloorVisualBridge : MonoBehaviour
 
     private void Awake()
     {
+        cachedTransform = transform;
         propBlock = new MaterialPropertyBlock();
 
         // 🌟【核心突破】：自动化组件装配与防呆双保险
         AutoBindComponents();
 
-        // 初始化光照与渲染器
-        if (refs.glowlight != null && refs.glowlight.TryGetComponent<Light2D>(out var light2D))
+        // 强行预缓存组件实例，避免运行时来回查找
+        if (refs.glowlight != null)
         {
-            baseLightIntensity = light2D.intensity;
+            cachedLight2D = refs.glowlight.GetComponent<Light2D>();
+            if (cachedLight2D != null) baseLightIntensity = cachedLight2D.intensity;
+        }
+
+        if (refs.glowLayer != null)
+        {
+            cachedGlowRenderer = refs.glowLayer.GetComponent<Renderer>();
+        }
+
+        if (refs.floorParticleSystem != null)
+        {
+            cachedParticleRenderer = refs.floorParticleSystem.GetComponent<ParticleSystemRenderer>();
         }
 
         if (refs.mainRenderer != null)
@@ -77,8 +106,6 @@ public class FloorVisualBridge : MonoBehaviour
             DetectShaderPropertyID();
             ExtractColorFromMaterial();
         }
-
-        
     }
 
     /// <summary>
@@ -183,14 +210,19 @@ public class FloorVisualBridge : MonoBehaviour
         // 视距剔除中：禁止开启昂贵的视觉效果
         if (isCulled && active) return;
 
-        if (refs.glowLayer != null) refs.glowLayer.SetActive(active);
-        if (refs.glowlight != null) refs.glowlight.SetActive(active);
+        // 优先切换组件的 enabled，避免频繁触发 GameObject.SetActive 带来的场景树结构脏化
+        if (cachedGlowRenderer != null) cachedGlowRenderer.enabled = active;
+        else if (refs.glowLayer != null) refs.glowLayer.SetActive(active);
+
+        if (cachedLight2D != null) cachedLight2D.enabled = active;
+        else if (refs.glowlight != null) refs.glowlight.SetActive(active);
 
         if (refs.floorParticleSystem != null)
         {
             var emission = refs.floorParticleSystem.emission;
             emission.enabled = active;
         }
+        if (cachedParticleRenderer != null) cachedParticleRenderer.enabled = active;
     }
 
     public void PlayJuicyFeedback(Color flashColor, float lightMultiplier, bool hideAfterFade)
@@ -351,13 +383,21 @@ public class FloorVisualBridge : MonoBehaviour
 
         if (culled)
         {
-            // 关闭昂贵组件
-            if (refs.glowlight != null) refs.glowlight.SetActive(false);
+            // 1. 关闭昂贵灯光（只关组件，不触碰 GameObject，彻底规避 URP 2D 管线重建与 C++ 场景树脏化）
+            if (cachedLight2D != null) cachedLight2D.enabled = false;
+            else if (refs.glowlight != null) refs.glowlight.SetActive(false);
+
+            // 2. 关闭额外发光层渲染器
+            if (cachedGlowRenderer != null) cachedGlowRenderer.enabled = false;
+            else if (refs.glowLayer != null) refs.glowLayer.SetActive(false);
+
+            // 3. 停止粒子发射并关闭粒子渲染器
             if (refs.floorParticleSystem != null)
             {
                 var emission = refs.floorParticleSystem.emission;
                 emission.enabled = false;
             }
+            if (cachedParticleRenderer != null) cachedParticleRenderer.enabled = false;
         }
         else
         {
@@ -367,6 +407,24 @@ public class FloorVisualBridge : MonoBehaviour
                 SetVisualsActive(true);
             }
         }
+    }
+
+    private void OnEnable()
+    {
+        FloorVisibilityCuller.Register(this);
+    }
+
+    private void OnDisable()
+    {
+        FloorVisibilityCuller.Unregister(this);
+    }
+
+    /// <summary>
+    /// 实现通用 ICullable 接口：由中央剔除管理器按视野与过渡区驱动
+    /// </summary>
+    public void OnCullingStateChanged(bool isVisible)
+    {
+        SetCulled(!isVisible);
     }
 
     // =========================================================================

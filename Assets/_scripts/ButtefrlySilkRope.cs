@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 [ExecuteAlways]
 [RequireComponent(typeof(LineRenderer))]
-public class ButterflySilkRope : MonoBehaviour
+public class ButterflySilkRope : MonoBehaviour, ICullable
 {
 
     /// <summary>
@@ -58,6 +58,33 @@ public class ButterflySilkRope : MonoBehaviour
     // 🌟 优化1：记录历史时间步，用于动态帧率变步长动量校准
     private float prevDeltaTime = 0.02f;
 
+    // 🌟 性能核心：视距剔除状态标记（控制是否执行昂贵的 Verlet 物理迭代）
+    private bool isCulled = false;
+
+    // 预分配定长 5 个采样特征点（起点、终点、中点、1/4点、3/4点），彻底解决超长绳索单点盲区，且零 GC
+    private readonly Vector3[] cullPoints = new Vector3[5];
+
+    /// <summary>
+    /// 实现通用 ICullable 接口：多点采样覆盖整条超长绳索。
+    /// 无论玩家靠近哪个锚点、或绳索横贯屏幕，只要任意一段进入视野+过渡区即刻唤醒！
+    /// </summary>
+    public Vector3[] CullCheckPoints
+    {
+        get
+        {
+            Vector3 start = startAnchor != null ? startAnchor.position : transform.position;
+            Vector3 end = endAnchor != null ? endAnchor.position : transform.position;
+
+            cullPoints[0] = start;
+            cullPoints[1] = end;
+            cullPoints[2] = (start + end) * 0.5f;
+            cullPoints[3] = (start * 0.75f) + (end * 0.25f);
+            cullPoints[4] = (start * 0.25f) + (end * 0.75f);
+
+            return cullPoints;
+        }
+    }
+
     // 供外部逻辑或编辑器快捷读取的只读点集映射
     public int PointCount => nodes != null ? nodes.Length : 0;
     public Vector2 GetPoint(int index) => nodes[index].current;
@@ -66,6 +93,46 @@ public class ButterflySilkRope : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.useWorldSpace = true;
+    }
+
+    private void OnEnable()
+    {
+        // 自动向全局通用剔除器注册
+        FloorVisibilityCuller.Register(this);
+    }
+
+    private void OnDisable()
+    {
+        // 失活时自动注销
+        FloorVisibilityCuller.Unregister(this);
+    }
+
+    /// <summary>
+    /// 实现通用 ICullable 接口响应：由视锥剔除管理器驱动
+    /// </summary>
+    public void OnCullingStateChanged(bool isVisible)
+    {
+        bool shouldCull = !isVisible;
+        if (isCulled == shouldCull) return;
+        isCulled = shouldCull;
+
+        // 视野外直接关闭 LineRenderer 渲染与粒子发射
+        if (lineRenderer != null)
+        {
+            lineRenderer.enabled = isVisible;
+        }
+
+        if (silkParticleSystem != null)
+        {
+            var emission = silkParticleSystem.emission;
+            emission.enabled = isVisible;
+        }
+
+        // 重新进入视野时，校准历史时间步长，防止 Verlet 物理瞬间产生突变拉扯
+        if (isVisible)
+        {
+            prevDeltaTime = 0.02f;
+        }
     }
 
     private void Start()
@@ -81,6 +148,9 @@ public class ButterflySilkRope : MonoBehaviour
 
     private void Update()
     {
+        // 🌟 性能终极拦截：处于视野外时，彻底跳过所有物理模拟、约束求解与顶点网格重绘！
+        if (Application.isPlaying && isCulled) return;
+
         if (lineRenderer == null) lineRenderer = GetComponent<LineRenderer>();
         if (startAnchor == null || endAnchor == null) return;
 
