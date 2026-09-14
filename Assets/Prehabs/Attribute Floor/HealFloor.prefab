@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 7583f5a2e81fc8e479386f9c1f81aedd, type: 2}
     - target: {fileID: 1351124034002206358, guid: be10e00c65251d045a6949b7c325cfa0, type: 3}
       propertyPath: feedbackColor.b
-      value: 0.8867924
+      value: 0.8862745
       objectReference: {fileID: 0}
     - target: {fileID: 1351124034002206358, guid: be10e00c65251d045a6949b7c325cfa0, type: 3}
       propertyPath: feedbackColor.g
-      value: 0.6509192
+      value: 0.6509804
       objectReference: {fileID: 0}
     - target: {fileID: 1351124034002206358, guid: be10e00c65251d045a6949b7c325cfa0, type: 3}
       propertyPath: feedbackColor.r
-      value: 0.30954063
+      value: 0.30980393
       objectReference: {fileID: 0}
     - target: {fileID: 5194249856901627411, guid: be10e00c65251d045a6949b7c325cfa0, type: 3}
       propertyPath: m_Sprite

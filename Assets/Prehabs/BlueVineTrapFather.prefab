@@ -414,7 +414,7 @@ MonoBehaviour:
   currentVineType: 0
   vineRoot: {fileID: 8555933909035096637}
   segmentCount: 35
-  attackSpeed: 36
+  attackSpeed: 50
   damageAmount: 5
   aggroRadius: 7
   detectionAngle: 45
@@ -433,4 +433,12 @@ MonoBehaviour:
   pierceWidthRoot: 0.6
   pierceWidthTip: 0.1
   pierceRetractSpeed: 8
+  struggleWindowTime: 3.5
+  maxSteerAngle: 90
+  steerSpeed: 60
+  requiredEscapeEnergy: 100
+  energyPerTap: 12
+  energyDecaySpeed: 15
+  spitForce: 25
+  escapeProgressBar: {fileID: 0}
   vineLight: {fileID: 3836143175181386508}

@@ -14,7 +14,7 @@ public class PlayerFloorInteraction : MonoBehaviour, IFloorInteractable
     public PlayerHealth HealthSystem => Hub.Health;
     public Playercontrol PlayerControl => Hub.Control;
     public PlayerEnergySystem PlayerEnergy => Hub.Energy;
-    private Rigidbody2D rb => Hub.Rb;
+    public Rigidbody2D rb => Hub.Rb;
     
     // 👑 运行时缓存：只盯着上一次踩中的那一块具体地砖
     private AttributeFloor lastTriggeredFloor;

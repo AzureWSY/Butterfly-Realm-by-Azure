@@ -511,7 +511,7 @@ MonoBehaviour:
   fallMultiplier: 3.5
   lowJumpMultiplier: 2
   wallRayLength: 0.15
-  jumpBufferTime: 0.2
+  jumpBufferTime: 0.3
   coyoteTime: 0.15
   isBeingThrown: 0
   canSuperJump: 0

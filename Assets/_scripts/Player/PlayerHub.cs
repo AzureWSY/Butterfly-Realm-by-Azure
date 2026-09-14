@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 [DisallowMultipleComponent]
 public class PlayerHub : MonoBehaviour
@@ -61,12 +62,35 @@ public class PlayerHub : MonoBehaviour
 
         if (Collider != null) Collider.enabled = false;
 
+        Debug.Log($"Before Teleport = {transform.position}");
+
         Teleport(respawnPosition);
+
+        Debug.Log($"After Teleport = {transform.position}");
+
+        StartCoroutine(CheckPos());
 
         if (Collider != null) Collider.enabled = true;
 
         if (Health != null) Health.ResetStatusOnRespawn();
 
         if (Control != null) Control.SetMovementPermission(true);
+    }
+    private IEnumerator CheckPos()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        Debug.Log($"After 0.5s = {transform.position}");
+
+        if (GameManager.Instance.CurrentActiveGrabber != null)
+        {
+            Debug.Log(
+                $"Grabber State = {GameManager.Instance.CurrentActiveGrabber.name}"
+            );
+        }
+        else
+        {
+            Debug.Log("Grabber = NULL");
+        }
     }
 }
